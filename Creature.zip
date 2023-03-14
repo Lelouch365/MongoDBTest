@@ -1,0 +1,178 @@
+from mongoengine import *
+
+
+class Ability(Document):
+    name = StringField(required=True)
+    effect_stat = IntField()
+    effect_status = StringField()
+
+    description = StringField()
+
+    meta = {'strict': False}
+
+class Creature(Document):
+    name = StringField(required=True, unique=True)
+    image = StringField()
+
+    hp = IntField(default=50, required=True)
+    attack = IntField(required=True)
+    defense = IntField(required=True)
+    speed = IntField(required=True)
+    ability = ReferenceField(Ability)
+    description = StringField()
+    lore = StringField
+
+    meta = {'strict': False}
+
+    def __repr__(self):
+        ability_name = self.ability.name if self.ability else "No Ability yet"
+        return f"<Creature {self.name} - Atk {self.attack}>"
+
+
+connect("Creatures")
+
+Creature.drop_collection()
+Ability.drop_collection()
+
+# Your code goes here
+a = Ability(name="Flame Shield", effect_stat=12, effect_status="Burn", description="Surrounds your team for three turns, may cause Burn Status")
+c = Creature(name="Pyra",  image="1", hp=150, attack=25, defense=30, speed=80, ability="Flame Shield", description="Surrounds your team for three turns, may cause Burn Status", lore="From the deepest parts of the Black Mountains, Pyra hails from a long line of heroic dragons. She started her journey in hopes of succeeding her family's legacy. ")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Ice Field", effect_stat=10, effect_status="Freeze", description="Surrounds your oppennet in ice spikes, may cause Freeze Status")
+c = Creature(name="Yuki",  image="2", hp=80, attack=25, defense=15, speed=40, ability="Ice Field", description="Surrounds your oppennet in ice spikes, may cause Freeze Status", lore="Though she lives in solitude like the rest of her kind, Yuki tends to help travelers who get lost in the snow. ")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Earth Spire", effect_stat=20, effect_status="Stun", description="Piercing damage, may cause Stun Status")
+c = Creature(name="Terra",  image="3", hp=200, attack=50, defense=50, speed=20, ability="Earth Spire", description="Piercing damage, may cause Stun Status", lore="No one can stop this legendary Golem.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Air Raid", effect_stat=20, effect_status="Confuse", description="Confuse enemy team for 3 turns")
+c = Creature(name="Sky",  image="4", hp=80, attack=15, defense=10, speed=80, ability="Air Raid", description="Confuse enemy team for 3 turns", lore="Sky is the prince of the Storm Eagle Empire. He may not be the strongest, but he is an amazing strategist.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Shining Flash", effect_stat=22, effect_status="Blind", description="Blinds your enemies for 5 turns, 50% chance of instant death.")
+c = Creature(name="Nanael",  image="5", hp=200, attack=60, defense=30, speed=90, ability="Shining Flash", description="Blinds your enemies for 5 turns, 50% chance of instant death.", lore="Nanael is an angel from Heaven and is known for being the kindest and bravest.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Dark Detour", effect_stat=30, effect_status="Death", description="Bombards enemy team with dark tendrils, may cause death status.")
+c = Creature(name="Spectra", image="6", hp=200, attack=60, defense=30, speed=80, ability="Dark Detour", description="Bombards enemy team with dark tendrils, may cause death status.", lore="Dark prince of the Demon Realm who seeks destruction.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Giga Strike", effect_stat=8, effect_status="N/A", description="High tier strike damage, no status")
+c = Creature(name="Len",  image="7", hp=75, attack=25, defense=30, speed=35, ability="Giga Strike", description="High tier strike damage, no status", lore="A warrior with a noble heart.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Thunder Hammer", effect_stat=30, effect_status="Shock", description="Heavy Thunder damage, may cause Shock Status")
+c = Creature(name="Adam",  image="8", hp=150, attack=40, defense=40, speed=100, ability="Thunder Hammer", description="Heavy Thunder damage, may cause Shock Status", lore="A noble Thunder Dragon with the power of Thor.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Aqua Shield", effect_stat=10, effect_status="N/A", description="Surrounds your team in a reflective shield that repel's attacks.")
+c = Creature(name="Sapphire",  image="9", hp=120, attack=45, defense=30, speed=80, ability="Aqua Shield", description="Surrounds your team in a reflective shield that repel's attacks", lore="An aquatic She-Dragon from the distant past.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Firebolt", effect_stat=12, effect_status="Burn", description="Shoots a bolt of fire.")
+c = Creature(name="Liza",  image="10", hp=90, attack=35, defense=30, speed=40, ability="Firebolt", description="Shoots a bolt of fire.", lore="Pyra's cheerful yet hot-blooded little sister.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Soul Stealer", effect_stat=22, effect_status="Death", description="Cause heavy spirit damage and Death.")
+c = Creature(name="Skull",  image="11", hp=250, attack=50, defense=50, speed=100, ability="Soul Stealer", description="Cause heavy spirit damage and Death.", lore="This skeleton general is loyal only to Prince Spectra.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Heaven's Blessing", effect_stat=30, effect_status="Holy", description="Fully restores your teams HP.")
+c = Creature(name="clara",  image="12", hp=50, attack=25, defense=25, speed=30, ability="Heaven's Blessing", description="Fully restores your teams HP.", lore="Heaven's one and only medical expert.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Crystal Shield", effect_stat=12, effect_status="N/A", description="Reflects certain attacks for a limited time.")
+c = Creature(name="Nate",  image="13", hp=110, attack=25, defense=80, speed=80, ability="Crystal Shield", description="Reflects certain attacks for a limited time.", lore="A knight with a strong defense.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Flame Sword", effect_stat=32, effect_status="Burn", description="Strike with heavy fire damage, may cause Burn Status")
+c = Creature(name="Pyra Drake",  image="14", hp=350, attack=45, defense=60, speed=180, ability="Flame Sword", description="Strike with heavy fire damage, may cause Burn Status", lore="Pyra has attained a new form that enables her to fly.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Wrath of God", effect_stat=42, effect_status="N/A", description="After three turns, get an automatic win")
+c = Creature(name="Nisha",  image="15", hp=400, attack=65, defense=90, speed=80, ability="Wrath of God", description="After three turns, get an automatic win", lore="A High Angel who seeks revenge on humanity.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Full Counter", effect_stat=12, effect_status="N/A", description="Reflects physical and magic attacks.")
+c = Creature(name="Kai",  image="16", hp=150, attack=255, defense=30, speed=100, ability="Full Counter", description="Reflects physical and magic attacks.", lore="This descendent of the great Meliodas has what it takes. ")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Heavy Metal", effect_stat=12, effect_status="N/A", description="Temporarily increases defense")
+c = Creature(name="Aisha",  image="17", hp=150, attack=75, defense=90, speed=80, ability="Heavy Metal", description="Temporarily increases defense", lore="The great granddaughter of Diane and King.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Fox Hunt", effect_stat=12, effect_status="Drain", description="Causes heavy spirit damage.")
+c = Creature(name="Shinji",  image="18", hp=150, attack=25, defense=30, speed=80, ability="Fox Hunt", description="Causes heavy spirit damage.", lore="Baan's descendant in the nation of Japan.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Power of Destruction", effect_stat=12, effect_status="Death", description="Instant Death")
+c = Creature(name="May",  image="19", hp=150, attack=55, defense=30, speed=80, ability="Power Of Destruction", description="Instant Death", lore="Daughter of Rias and one of the twin heir's to the Gremory Clan.")
+
+a.save()
+c.ability = a
+c.save()
+
+a = Ability(name="Power of Destruction", effect_stat=12, effect_status="Death", description="Instant Death")
+c = Creature(name="Jirou",  image="20", hp=150, attack=55, defense=30, speed=80, ability="Power of Destruction", description="Instant Death", lore="Son of Rias and one of the twin heir's to the Gremory Clan.")
+
+a.save()
+c.ability = a
+c.save()
+
+pass
